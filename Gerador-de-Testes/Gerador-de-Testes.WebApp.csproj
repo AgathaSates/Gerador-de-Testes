@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Gerador_de_Testes.WebApp</RootNamespace>
+    <UserSecretsId>489d4389-fa8f-4453-92c7-1063d9a1485c</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
