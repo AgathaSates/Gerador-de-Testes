@@ -1,8 +1,8 @@
-using Gerador_de_Testes.ActionFilters;
-using Gerador_de_Testes.DependencyInjection;
-using Gerador_de_Testes.Orm;
+using Gerador_de_Testes.WebApp.ActionFilters;
+using Gerador_de_Testes.WebApp.DependencyInjection;
+using Gerador_de_Testes.WebApp.Orm;
 
-namespace Gerador_de_Testes
+namespace Gerador_de_Testes.WebApp
 {
     public class Program
     {
