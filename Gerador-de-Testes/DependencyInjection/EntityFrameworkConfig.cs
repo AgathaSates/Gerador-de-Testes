@@ -1,7 +1,7 @@
 ﻿using Gerador_de_Testes.Infraestrutura.Orm.Compartilhado;
 using Microsoft.EntityFrameworkCore;
 
-namespace Gerador_de_Testes.DependencyInjection;
+namespace Gerador_de_Testes.WebApp.DependencyInjection;
 
 public static class EntityFrameworkConfig
 {

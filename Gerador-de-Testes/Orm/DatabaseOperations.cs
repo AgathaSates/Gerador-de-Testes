@@ -1,7 +1,7 @@
 ﻿using Gerador_de_Testes.Infraestrutura.Orm.Compartilhado;
 using Microsoft.EntityFrameworkCore;
 
-namespace Gerador_de_Testes.Orm;
+namespace Gerador_de_Testes.WebApp.Orm;
 
 public static class DatabaseOperations
 {

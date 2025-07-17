@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Gerador_de_Testes.ActionFilters;
+namespace Gerador_de_Testes.WebApp.ActionFilters;
 
 public class LogarAcaoAttribute : ActionFilterAttribute
 {

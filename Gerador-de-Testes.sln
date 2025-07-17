@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.Dominio", "2.Dominio", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.Infraestrutura", "3.Infraestrutura", "{D67D1321-F0AB-49C1-BCB4-35D7653ED942}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gerador-de-Testes", "Gerador-de-Testes\Gerador-de-Testes.csproj", "{6C790A43-4098-47E7-AC82-0D6AF3C87D31}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gerador-de-Testes.WebApp", "Gerador-de-Testes\Gerador-de-Testes.WebApp.csproj", "{6C790A43-4098-47E7-AC82-0D6AF3C87D31}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gerador-de-Testes.Dominio", "Gerador-de-Testes.Dominio\Gerador-de-Testes.Dominio.csproj", "{ACE484D8-4788-4B7C-B68B-925498DFE551}"
 EndProject

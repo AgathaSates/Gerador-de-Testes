@@ -1,7 +1,7 @@
 ﻿using Serilog;
 using Serilog.Events;
 
-namespace Gerador_de_Testes.DependencyInjection;
+namespace Gerador_de_Testes.WebApp.DependencyInjection;
 
 public static class SerilogConfig
 {
