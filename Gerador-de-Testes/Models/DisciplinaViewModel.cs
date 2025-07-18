@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Gerador_de_Testes.Dominio.ModuloDisciplina;
+using Gerador_de_Testes.WebApp.Extensions;
 
 namespace Gerador_de_Testes.WebApp.Models;
 
@@ -18,58 +20,52 @@ public class CadastrarDisciplinaViewModel : FormularioDisciplinaViewModel
         Nome = nome;
     }
 }
+
 public class EditarDisciplinaViewModel : FormularioDisciplinaViewModel
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public EditarDisciplinaViewModel() { }
-    public EditarDisciplinaViewModel(int id, string nome)
-    {
-        Id = id;
-        Nome = nome;
-    }
-}
-public class ExcluirDisciplinaViewModel
-{
-    public int Id { get; set; }
-    public string Nome { get; set; }
-    public ExcluirDisciplinaViewModel() { }
-    public ExcluirDisciplinaViewModel(int id, string nome)
-    {
-        Id = id;
-        Nome = nome;
-    }
-}
-public class VisualizarDisciplinaViewModel
-{
-    public int Id { get; set; }
-    public string Nome { get; set; }
-    public VisualizarDisciplinaViewModel() { }
-    public VisualizarDisciplinaViewModel(int id, string nome)
-    {
-        Id = id;
-        Nome = nome;
-    }
-}
-public class DetalharDisciplinaViewModel
-{
-    public int Id { get; set; }
-    public string Nome { get; set; }
-    public DetalharDisciplinaViewModel() { }
-    public DetalharDisciplinaViewModel(int id, string nome)
-    {
-        Id = id;
-        Nome = nome;
-    }
-}
-public class SelecionarDisciplinaViewModel
-{
-    public int Id { get; set; }
-    public string Nome { get; set; }
-    public SelecionarDisciplinaViewModel() { }
-    public SelecionarDisciplinaViewModel(int id, string nome)
+    public EditarDisciplinaViewModel(Guid id, string nome)
     {
         Id = id;
         Nome = nome;
     }
 }
 
+public class ExcluirDisciplinaViewModel
+{
+    public Guid Id { get; set; }
+    public string Nome { get; set; }
+    public ExcluirDisciplinaViewModel(Guid id, string nome)
+    {
+        Id = id;
+        Nome = nome;
+    }
+}
+
+public class VisualizarDisciplinaViewModel
+{
+    public List<DetalhesDisciplinaViewModel> Disciplinas { get; set; }
+
+    public VisualizarDisciplinaViewModel(List<Disciplina> disciplinas)
+    {
+        Disciplinas = new List<DetalhesDisciplinaViewModel>();
+
+        foreach (var d in disciplinas)
+        {
+            Disciplinas.Add(d.ParaDetalhes());
+        }
+    }
+}
+
+public class DetalhesDisciplinaViewModel
+{
+    public Guid Id { get; set; }
+    public string Nome { get; set; }
+   
+    public DetalhesDisciplinaViewModel(Guid id, string nome)
+    {
+        Id = id;
+        Nome = nome;
+    }
+}
