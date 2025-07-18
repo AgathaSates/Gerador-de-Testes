@@ -1,6 +1,6 @@
 ﻿using Gerador_de_Testes.Dominio.Compartilhado;
 
-namespace Gerador_de_Testes.Dominio.ModuloDisciplinas;
+namespace Gerador_de_Testes.Dominio.ModuloDisciplina;
 
 public class Disciplina : EntidadeBase<Disciplina>
 {
