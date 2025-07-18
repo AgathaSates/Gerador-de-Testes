@@ -24,7 +24,10 @@ namespace Gerador_de_Testes.WebApp
             var app = builder.Build();
 
             if (!app.Environment.IsDevelopment())
-                app.UseExceptionHandler("/Error");
+            {
+                app.UseExceptionHandler("/error");
+                app.UseStatusCodePagesWithReExecute("/error");
+            }
             else
                 app.UseDeveloperExceptionPage();
 
