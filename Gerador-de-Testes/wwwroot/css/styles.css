@@ -1,0 +1,69 @@
+﻿:root {
+    --fundo: #BFD7EA;
+    --texto: #16262E;
+    --texto-navbar: #85BDBF;
+    --fundo-navbar: #152634;
+    --fundo-card: #D6E6F2;
+    --fundo-imput: #E6F0F3;
+}
+
+body {
+    background-color: var(--fundo);
+    color: var(--texto);
+}
+
+.cor-navbar {
+    background-color: var(--fundo-navbar);
+}
+
+    .cor-navbar a {
+        color: var(--texto-navbar);
+    }
+
+.nav-item {
+    margin-right: 0.5rem;
+}
+
+.navbar-toggler {
+    border: 1px solid var(--texto-navbar);
+    border-radius: 0.3rem;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%2385BDBF' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+.nav-link {
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: 0.2rem;
+    padding: 0.5rem 0.75rem;
+}
+
+    .nav-link:hover,
+    .nav-link.active {
+        background-color: var(--texto-navbar);
+        color: var(--texto);
+    }
+
+.card {
+    background-color: var(--fundo-card);
+    color: var(--texto);
+}
+
+.hover-effect:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+img.rounded-circle {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    background-image: linear-gradient(to top, #a1c4cd, #86abb6, #6b929f, #507a88, #366373, #2a5667, #1e495b, #113d4f, #133748, #133142, #132b3b, #132534);
+}
+
+.fundo-footer {
+    background-color: var(--fundo-navbar);
+    color: var(--texto-navbar);
+}
