@@ -5,6 +5,7 @@ public class HomeController : Controller
 {
     public IActionResult Index()
     {
+        ViewBag.Title = "Gerador de Testes | Página Inicial";
         return View();
     }
 }
