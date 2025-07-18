@@ -1,132 +1,164 @@
-﻿using Gerador_de_Testes.Dominio.Compartilhado;
-using Gerador_de_Testes.Dominio.ModuloDisciplinas;
-using Gerador_de_Testes.Infraestrutura.Orm.ModuloDisciplinas;
-using Gerador_de_Testes.WebApp.ActionFilters;
+﻿using Gerador_de_Testes.Dominio.ModuloDisciplina;
+using Gerador_de_Testes.Infraestrutura.Orm.Compartilhado;
 using Gerador_de_Testes.WebApp.Extensions;
 using Gerador_de_Testes.WebApp.Models;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Gerador_de_Testes.WebApp.Controllers
+namespace Gerador_de_Testes.WebApp.Controllers;
+
+[Route("disciplina")]
+public class DisciplinaController : Controller
 {
-    [Route("disciplina")]
-    [ValidarModelo]
-    public class DisciplinaController : Controller
+    private readonly GeradorDeTestesDbContext _contexto;
+    private readonly IRepositorioDisciplina _repositorioDisciplina;
+
+    public DisciplinaController(GeradorDeTestesDbContext contexto, IRepositorioDisciplina repositorioDisciplina)
     {
+        _contexto = contexto;
+        _repositorioDisciplina = repositorioDisciplina;
+    }
 
-        private readonly ContextoDados contextoDados;
-        private readonly IRepositorioDisciplina repositorioDisciplina;
-        private readonly IRepositorioQuestao repositorioQuestao;
+    public IActionResult Index()
+    {
+        ViewBag.Title = "Gerador de Testes | Disciplinas";
 
+        var disciplinas = _repositorioDisciplina.SelecionarTodos();
+        var visualizarVM = new VisualizarDisciplinaViewModel(disciplinas);
 
-        public DisciplinaController(ContextoDados contextoDados, IRepositorioDisciplina repositorioDisciplina, IRepositorioQuestao repositorioQuestao)
+        return View(visualizarVM);
+    }
+
+    [HttpGet("cadastrar")]
+    public IActionResult Cadastrar()
+    {
+        ViewBag.Title = "Disciplinas | Cadastrar";
+
+        var cadastrarVM = new CadastrarDisciplinaViewModel();
+
+        return View(cadastrarVM);
+    }
+
+    [HttpPost("cadastrar")]
+    [ValidateAntiForgeryToken]
+    public IActionResult Cadastrar(CadastrarDisciplinaViewModel cadastrarVm)
+    {
+        ViewBag.Title = "Disciplinas | Cadastrar";
+
+        var disciplinas = _repositorioDisciplina.SelecionarTodos();
+
+        foreach (var item in disciplinas)
         {
-            this.contextoDados = contextoDados;
-            this.repositorioDisciplina = repositorioDisciplina;
-            this.repositorioQuestao = repositorioQuestao;
-        }
-
-        public IActionResult Index()
-        {
-            ViewBag.Titulo = "Disciplinas";
-            ViewBag.Header = "Visualizando Questões";
-            var disciplinas = repositorioDisciplina.ObterTodos();
-            var visualizarVM = new VisualizarDisciplinaViewModel(registros);
-            return View(disciplinas);
-        }
-        [HttpGet("cadastrar")]
-        public IActionResult Cadastrar()
-        {
-            ViewBag.Titulo = "Disciplinas | Cadastrar";
-            ViewBag.Header = "Cadastro de Disciplina";
-            var cadastrarVm = new CadastrarDisciplinaViewModel();
-            return View(new CadastrarDisciplinaViewModel());
-        }
-        [HttpPost("cadastrar")]
-        [ValidateAntiForgeryToken]
-        public IActionResult Cadastrar(CadastrarDisciplinaViewModel cadastrarVm)
-        {
-
-            ViewBag.Titulo = "Disciplinas | Cadastrar";
-            ViewBag.Header = "Cadastro de Disciplina";
-            var registros = repositorioDisciplina.ObterTodos();
-
-            foreach (var item in registros)
+            if (item.Nome.Equals(cadastrarVm.Nome))
             {
-                if (item.Nome.Equals(cadastrarVm.Nome))
-                {
-                    ModelState.AddModelError("Nome", "Já existe uma disciplina com esse nome.");
-                    return View(cadastrarVm);
-                }
-
+                ModelState.AddModelError("CadastroUnico", "Já existe uma disciplina registrada com este nome.");
+                return View(cadastrarVm);
             }
-            var entidade = cadastrarVm.ParaEntidade();
-            repositorioDisciplina.Cadastrar(entidade);
+        }
+
+        var novaDisciplina = cadastrarVm.ParaEntidade();
+
+        var transacao = _contexto.Database.BeginTransaction();
+
+        try 
+        {
+            _repositorioDisciplina.Cadastrar(novaDisciplina);
+            _contexto.SaveChanges();
+            transacao.Commit();
+        }
+        catch (Exception)
+        {
+            transacao.Rollback();
+            throw;
+        }
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpGet("editar/{id:guid}")]
+    public IActionResult Editar(Guid id)
+    {
+        ViewBag.Title = "Disciplinas | Editar";
+
+        var disciplinaSelecionada = _repositorioDisciplina.SelecionarPorId(id);
+
+        if (disciplinaSelecionada is null)
             return RedirectToAction(nameof(Index));
+
+        var editarVM = new EditarDisciplinaViewModel(id, disciplinaSelecionada.Nome);
+
+        return View(editarVM);
+    }
+
+    [HttpPost("editar/{id:guid}")]
+    [ValidateAntiForgeryToken]
+    public ActionResult Editar(Guid id, EditarDisciplinaViewModel editarVM)
+    {
+        ViewBag.Title = "Disciplinas | Editar";
+
+        var disciplinas = _repositorioDisciplina.SelecionarTodos();
+
+        if (disciplinas.Any(x => !x.Id.Equals(id) && x.Nome.Equals(editarVM.Nome)))
+        {
+            ModelState.AddModelError("CadastroUnico", "Já existe uma disciplina registrada com este nome.");
+            return View(editarVM);
         }
 
-        [HttpGet("editar/{id:guid}")]
-        [ValidateAntiForgeryToken]
-        public IActionResult Editar(Guid id)
-        {
-            ViewBag.Titulo = "Disciplinas | Editar";
-            ViewBag.Header = "Edição de Disciplina";
-            var registros = repositorioDisciplina.ObterPorId(id);
+        var disciplinaEditada = editarVM.ParaEntidade();
 
-            var editarVm = new EditarDisciplinaViewModel(registros.Id, registros.Nome);
-            return View(editarVm);
+        var transacao = _contexto.Database.BeginTransaction();
+
+        try 
+        {
+            _repositorioDisciplina.Editar(id, disciplinaEditada);
+            _contexto.SaveChanges();
+            transacao.Commit();
         }
-        [HttpPost("editar/{id:guid}")]
-        [ValidateAntiForgeryToken]
-        public ActionResult Editar(Guid id, EditarDisciplinaViewModel editarVm)
+        catch (Exception)
         {
-            ViewBag.Titulo = "Disciplinas | Editar";
-            ViewBag.Header = "Edição de Disciplina";
-            var registros = repositorioDisciplina.ObterTodos();
+            transacao.Rollback();
+            throw;
+        }
 
-            foreach (var item in registros)
-            {
-                if (item.Nome.Equals(editarVm.Nome) && item.Id != id)
-                {
-                    ModelState.AddModelError("CadastroUnico", "Já existe uma disciplina com esse nome.");
-                    return View(editarVm);
-                }
-            }
-            var entidade = editarVm.ParaEntidade();
-            
-            repositorioDisciplina.Editar(entidade);
+        return RedirectToAction(nameof(Index));
+    }
 
+    [HttpGet("excluir/{id:guid}")]
+    public IActionResult Excluir(Guid id)
+    {
+        ViewBag.Title = "Disciplinas | Excluir";
+
+        var disciplinaSelecionada = _repositorioDisciplina.SelecionarPorId(id);
+
+        if (disciplinaSelecionada is null)
             return RedirectToAction(nameof(Index));
-        }
-        [HttpGet("excluir/{id:guid}")]
-        public IActionResult Excluir(Guid id)
+
+        var excluirVM = new ExcluirDisciplinaViewModel(id, disciplinaSelecionada.Nome);
+
+        return View(excluirVM);
+    }
+
+    [HttpPost("excluir/{id:guid}")]
+    [ValidateAntiForgeryToken]
+    public IActionResult ExcluirConfirmado(Guid id, ExcluirDisciplinaViewModel excluirVM)
+    {
+        ViewBag.Title = "Disciplinas | Excluir";
+
+        //validação de exclusão depois de criar as outras entidades
+
+        var trasacao = _contexto.Database.BeginTransaction();
+
+        try 
         {
-            ViewBag.Titulo = "Disciplinas | Excluir";
-            ViewBag.Header = "Exclusão de Disciplina";
-            var disciplina = repositorioDisciplina.ObterPorId(id);
-            if (disciplina == null)
-                return NotFound();
-            var excluirVm = new ExcluirDisciplinaViewModel(disciplina.Id, disciplina.Nome);
-            return View(excluirVm);
+            _repositorioDisciplina.Excluir(id);
+            _contexto.SaveChanges();
+            trasacao.Commit();
         }
-        [HttpPost("excluir/{id:guid}")]
-        [ValidateAntiForgeryToken]
-        public IActionResult ExcluirConfirmado(Guid id, ExcluirDisciplinaViewModel excluirVm)
+        catch (Exception)
         {
-            ViewBag.Titulo = "Disciplinas | Excluir";
-            ViewBag.Header = "Exclusão de Disciplina";
-            var disciplina = repositorioDisciplina.ObterPorId(id);
-            if (disciplina == null)
-                return NotFound();
-            var questoes = repositorioQuestao.ObterTodos().Where(q => q.DisciplinaId == id).ToList();
-            if (questoes.Any())
-            {
-                ModelState.AddModelError("Exclusao", "Não é possível excluir uma disciplina que possui questões associadas.");
-                return View(excluirVm);
-            }
-            repositorioDisciplina.Excluir(disciplina);
-            return RedirectToAction(nameof(Index));
+            trasacao.Rollback();
+            throw;
         }
+
+        return RedirectToAction(nameof(Index));
+    }
 }
-
-
