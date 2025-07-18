@@ -1,9 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Gerador_de_Testes.Dominio.ModuloDisciplina;
+using Microsoft.EntityFrameworkCore;
 
 namespace Gerador_de_Testes.Infraestrutura.Orm.Compartilhado;
 public class GeradorDeTestesDbContext : DbContext
 {
     // public DbSet<Entidade> Entidades { get; set; } *adicionar DbSet para cada entidade nova
+
+    public DbSet<Disciplina> Disciplinas { get; set; }
 
     public GeradorDeTestesDbContext(DbContextOptions options) : base(options) { }
 
