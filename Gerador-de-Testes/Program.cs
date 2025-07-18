@@ -1,3 +1,5 @@
+using Gerador_de_Testes.Dominio.ModuloDisciplina;
+using Gerador_de_Testes.Infraestrutura.Orm.ModuloDisciplina;
 using Gerador_de_Testes.WebApp.ActionFilters;
 using Gerador_de_Testes.WebApp.DependencyInjection;
 using Gerador_de_Testes.WebApp.Orm;
@@ -16,7 +18,8 @@ namespace Gerador_de_Testes.WebApp
                 options.Filters.Add<LogarAcaoAttribute>();
             });
 
-            //builder.Services.AddScoped<IRepositorioEntidade, RepositorioEntidadeOrm>(); *Adicionar repositório de cada entidade aqui*
+            //builder.Services.AddScoped<IRepositorioEntidade, RepositorioEntidade>(); *Adicionar repositório de cada entidade aqui*
+            builder.Services.AddScoped<IRepositorioDisciplina, RepositorioDisciplina>();
 
             builder.Services.AddEntityFrameworkConfig(builder.Configuration);
             builder.Services.AddSerilogConfig(builder.Logging);
