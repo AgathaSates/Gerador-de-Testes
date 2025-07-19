@@ -5,16 +5,16 @@ namespace Gerador_de_Testes.Dominio.ModuloMateria;
 public class Materia : EntidadeBase<Materia>
 {
     public string Nome { get; set; }
-    public Disciplina Disciplina { get; set; }
     public Serie Serie { get; set; }
+    public Disciplina Disciplina { get; set; }
     public Materia() { }
 
-    public Materia(string nome, Disciplina disciplina, Serie serie) : this()
+    public Materia(string nome, Serie serie, Disciplina disciplina) : this()
     {
         Id = Guid.NewGuid();
         Nome = nome;
-        Disciplina = disciplina;
         Serie = serie;
+        Disciplina = disciplina;
     }
     public override void Atualizar(Materia registroEditado)
     {
