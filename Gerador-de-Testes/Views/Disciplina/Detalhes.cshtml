@@ -1,0 +1,35 @@
+﻿@model DetalhesDisciplinaViewModel
+
+<div class="container my-5">
+    <h2 class="text-center mb-4">
+        <i class="bi bi-eye"></i> Detalhes de Disciplina
+    </h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card rounded-2 shadow-sm">
+                <div class="card-body p-md-5">
+                    <h3 class="text-center fw-bold">Formulário de Visualização</h3>
+
+                    <div class="row mt-3 align-items-center">
+                        <label for="Id" class="col-2 col-form-label fs-5 fw-bold">Id:</label>
+                        <div class="col-10">
+                            <input name="Id" class="form-control" value="@Model.Id" readonly disabled />
+                        </div>
+                    </div>
+
+                    <div class="row mt-3 align-items-center">
+                        <label for="Nome" class="col-2 col-form-label fs-5 fw-bold">Nome:</label>
+                        <div class="col-10">
+                            <input name="Nome" class="form-control" value="@Model.Nome" readonly disabled />
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-3 mt-5">
+                        <a role="button" href="/disciplinas" class="btn btn-secondary rounded-2 px-5" title="Voltar à página de disciplinas">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
