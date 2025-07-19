@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Gerador_de_Testes.WebApp.Controllers;
 
-[Route("disciplina")]
+[Route("disciplinas")]
 public class DisciplinaController : Controller
 {
     private readonly GeradorDeTestesDbContext _contexto;
