@@ -1,5 +1,42 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model CadastrarDisciplinaViewModel
+
+<div class="container my-5">
+    <h2 class="text-center mb-4">
+        <i class="bi bi-mortarboard-fill"></i> Cadastro de Disciplina
+    </h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card rounded-2 shadow-sm">
+                <div class="card-body p-md-5">
+                    <form asp-action="Cadastrar">
+                        <h3 class="text-center fw-bold">Formulário de Cadastro</h3>
+
+                        @if (ViewData.ModelState["CadastroUnico"]?.Errors.Count > 0)
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
+                                @ViewData.ModelState["CadastroUnico"]!.Errors.First().ErrorMessage
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+
+                        <div class="form-group d-grid gap-2 mt-3">
+                            <label asp-for="Nome" class="control-label fs-5 fw-bold">Nome*</label>
+                            <input asp-for="Nome" class="form-control bg-light input-custom" placeholder="Digite o nome da disciplina..." />
+                            <span asp-validation-for="Nome" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group d-flex justify-content-center gap-3 mt-5">
+                            <a role="button" href="/disciplinas" class="btn btn-secondary rounded-2 px-5" title="Voltar à lista de disciplinas">Voltar</a>
+                            <button type="submit" class="btn btn-success rounded-2 px-5" title="Salvar disciplina">Salvar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }
