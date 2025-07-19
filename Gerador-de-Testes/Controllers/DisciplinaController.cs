@@ -132,14 +132,14 @@ public class DisciplinaController : Controller
         if (disciplinaSelecionada is null)
             return RedirectToAction(nameof(Index));
 
-        var excluirVM = new ExcluirDisciplinaViewModel(id, disciplinaSelecionada.Nome);
+        var excluirVM = new ExcluirDisciplinaViewModel(disciplinaSelecionada.Id, disciplinaSelecionada.Nome);
 
         return View(excluirVM);
     }
 
     [HttpPost("excluir/{id:guid}")]
     [ValidateAntiForgeryToken]
-    public IActionResult ExcluirConfirmado(Guid id, ExcluirDisciplinaViewModel excluirVM)
+    public IActionResult ExcluirConfirmado(Guid id)
     {
         ViewBag.Title = "Disciplinas | Excluir";
 
@@ -160,5 +160,22 @@ public class DisciplinaController : Controller
         }
 
         return RedirectToAction(nameof(Index));
+    }
+
+    [HttpGet("detalhes/{id:guid}")]
+    public IActionResult Detalhes(Guid id)
+    {
+        ViewBag.Title = "Disciplinas | Detalhes";
+
+        var disciplinaSelecionada = _repositorioDisciplina.SelecionarPorId(id);
+
+        if (disciplinaSelecionada is null)
+            return RedirectToAction(nameof(Index));
+
+        //adicionar mais detalhes de materias e testes relacionados
+
+        var detalhesVM = new DetalhesDisciplinaViewModel(id, disciplinaSelecionada.Nome);
+
+        return View(detalhesVM);
     }
 }
