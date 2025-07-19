@@ -1,0 +1,45 @@
+@model ExcluirMateriaViewModel
+
+<div class="container my-5">
+    <h2 class="text-center mb-4">
+        <i class="bi bi-trash-fill "></i> Exclusão de Matéria
+    </h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card card-form rounded-4 shadow-sm">
+                <div class="card-body p-md-5">
+                    <h3 class="text-center fw-bold">Formulário de Exclusão</h3>
+
+                    @if (ViewData.ModelState["Exclusão"]?.Errors.Count > 0)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
+                            @ViewData.ModelState["Exclusão"]!.Errors.First().ErrorMessage
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
+                    <p class="mt-4 text-center fs-5">
+                        Você deseja realmente excluir a matéria <strong>"@Model.Nome"</strong>?
+                    </p>
+
+                    <div class="alert alert-warning text-center mt-3" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+                        <strong> Atenção!</strong> Essa ação não poderá ser desfeita.
+                    </div>
+
+                    <form asp-action="Excluir" asp-route-id="@Model.Id">
+                        <div class="form-group d-flex justify-content-center gap-3 mt-4">
+                            <a role="button" href="/materias" class="btn btn-secondary rounded-3 px-5" title="Voltar à lista de matérias">Voltar</a>
+                            <button type="submit" class="btn btn-danger rounded-3 px-5" title="Excluir matéria">Excluir</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

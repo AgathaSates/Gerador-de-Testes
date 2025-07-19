@@ -1,0 +1,60 @@
+@using Gerador_de_Testes.Dominio.ModuloMateria
+@model CadastrarMateriaViewModel
+
+<div class="container my-5">
+    <h2 class="text-center mb-4">
+        <i class="bi bi-mortarboard-fill"></i> Cadastro de Materia
+    </h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card rounded-2 shadow-sm">
+                <div class="card-body p-md-5">
+                    <form asp-action="Cadastrar">
+                        <h3 class="text-center fw-bold">Formulário de Cadastro</h3>
+
+                        @if (ViewData.ModelState["CadastroUnico"]?.Errors.Count > 0)
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
+                                @ViewData.ModelState["CadastroUnico"]!.Errors.First().ErrorMessage
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+
+                        <div class="form-group d-grid gap-2 mt-3">
+                            <label asp-for="Nome" class="control-label fs-5 fw-bold">Nome*</label>
+                            <input asp-for="Nome" class="form-control bg-light input-custom" placeholder="Digite o nome da matéria..." />
+                            <span asp-validation-for="Nome" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group d-grid gap-2 mt-3">
+                            <label asp-for="Serie" class="control-label fs-5 fw-bold">Serie*</label>
+                            <select asp-for="Serie" asp-items="@Html.GetEnumSelectList<Serie>()" class="form-select imput-form"></select>
+                            <span asp-validation-for="Serie" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group d-grid gap-2 mt-3">
+                            <label asp-for="DisciplinaId" class="control-label fs-5 fw-bold">Disciplina*</label>
+                            <select asp-for="DisciplinaId" class="form-select input-form">
+                                @foreach (var item in Model.DisciplinasDisponiveis)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                            <span asp-validation-for="DisciplinaId" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group d-flex justify-content-center gap-3 mt-5">
+                            <a role="button" href="/materias" class="btn btn-secondary rounded-2 px-5" title="Voltar à lista de matérias">Voltar</a>
+                            <button type="submit" class="btn btn-success rounded-2 px-5" title="Salvar disciplina">Salvar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
