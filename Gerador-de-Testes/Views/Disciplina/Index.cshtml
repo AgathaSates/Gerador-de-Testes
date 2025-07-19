@@ -1,5 +1,45 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model VisualizarDisciplinaViewModel
+
+<div class="container">
+    <h1 class="text-center my-4 fw-bold">
+        <i class="bi bi-mortarboard-fill"></i> Disciplinas
+    </h1>
+    <p class="text-center lead text-muted fw-semibold">Gerencie aqui as disciplinas disponíveis no sistema.</p>
+
+    <div class="d-flex justify-content-start mb-3">
+        <a asp-action="cadastrar" class="btn btn-adicionar btn-md">
+            <i class="bi bi-plus-circle"></i> Adicionar nova disciplina
+        </a>
+    </div>
+    <hr />
+    <div class="row gx-2 gy-2">
+        @foreach (var item in Model.Disciplinas)
+        {
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <p class="card-text mb-3 fs-5">
+                            <span class="fw-bold">Nome:</span> @((item.Nome != null && item.Nome.Length > 16) ? item.Nome.Substring(0, 16) + "..." : item.Nome)
+                        </p>
+                        
+                        <div class="d-flex justify-content-end gap-1">
+                            <a asp-action="detalhes" asp-route-id="@item.Id" class="btn btn-secondary" title="Detalhes">
+                                <i class="bi bi-eye"></i>
+                            </a>
+
+                            <a asp-action="editar" asp-route-id="@item.Id" class="btn btn-primary" title="Editar">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+
+                            <a asp-action="excluir" asp-route-id="@item.Id" class="btn btn-danger" title="Excluir">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
