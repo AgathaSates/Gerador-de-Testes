@@ -54,6 +54,12 @@ body {
     color: var(--texto);
 }
 
+.input-custom:focus {
+    border-color: #6c757d; 
+    box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.25);
+}
+
+
 .hover-effect:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0,0,0,0.2);
