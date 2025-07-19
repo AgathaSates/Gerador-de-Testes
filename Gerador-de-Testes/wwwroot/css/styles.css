@@ -67,6 +67,20 @@ img.rounded-circle {
     background-image: linear-gradient(to top, #a1c4cd, #86abb6, #6b929f, #507a88, #366373, #2a5667, #1e495b, #113d4f, #133748, #133142, #132b3b, #132534);
 }
 
+.btn-adicionar {
+    background-color: #1b2c3b;
+    color: var(--texto-navbar);
+}
+
+    .btn-adicionar:hover {
+        background-color: #263543;
+        color: var(--texto-navbar);
+    }
+
+.card-text {
+    overflow-wrap: break-word;
+}
+
 .fundo-footer {
     background-color: var(--fundo-navbar);
     color: var(--texto-navbar);
