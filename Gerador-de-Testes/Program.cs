@@ -1,7 +1,11 @@
 using Gerador_de_Testes.Dominio.ModuloDisciplina;
 using Gerador_de_Testes.Dominio.ModuloMateria;
+using Gerador_de_Testes.Dominio.ModuloQuestao;
+using Gerador_de_Testes.Dominio.ModuloTeste;
 using Gerador_de_Testes.Infraestrutura.Orm.ModuloDisciplina;
 using Gerador_de_Testes.Infraestrutura.Orm.ModuloMateria;
+using Gerador_de_Testes.Infraestrutura.Orm.ModuloQuestao;
+using Gerador_de_Testes.Infraestrutura.Orm.ModuloTeste;
 using Gerador_de_Testes.WebApp.ActionFilters;
 using Gerador_de_Testes.WebApp.DependencyInjection;
 using Gerador_de_Testes.WebApp.Orm;
@@ -20,9 +24,10 @@ namespace Gerador_de_Testes.WebApp
                 options.Filters.Add<LogarAcaoAttribute>();
             });
 
-            //builder.Services.AddScoped<IRepositorioEntidade, RepositorioEntidade>(); *Adicionar repositório de cada entidade aqui*
             builder.Services.AddScoped<IRepositorioDisciplina, RepositorioDisciplina>();
             builder.Services.AddScoped<IRepositorioMateria, RepositorioMateria>();
+            builder.Services.AddScoped<IRepositorioQuestao, RepositorioQuestao>();
+            builder.Services.AddScoped<IRepositorioTeste, RepositorioTeste>();
 
             builder.Services.AddEntityFrameworkConfig(builder.Configuration);
             builder.Services.AddSerilogConfig(builder.Logging);
