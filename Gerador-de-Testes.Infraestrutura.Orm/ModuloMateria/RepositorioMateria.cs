@@ -10,13 +10,16 @@ public class RepositorioMateria : RepositorioBaseOrm<Materia>, IRepositorioMater
     public override List<Materia> SelecionarTodos()
     {
         return _registros.Include(m => m.Disciplina)
-            .Include(m => m.Questoes).ToList();
+            .Include(m => m.Questoes)
+            .Include(m => m.Testes)
+            .ToList();
     }
 
     public override Materia? SelecionarPorId(Guid idRegistro)
     {
         return _registros.Include(m => m.Disciplina)
             .Include(m => m.Questoes)
+            .Include(m => m.Testes)
             .FirstOrDefault(x => x.Id.Equals(idRegistro));
     }
 }
