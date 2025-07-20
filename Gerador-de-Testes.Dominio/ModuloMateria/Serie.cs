@@ -6,6 +6,5 @@ public enum Serie
     Segundo,
     Terceiro,
     Quarto,
-    Quinto,
-    etc
+    Quinto
 }
