@@ -11,12 +11,15 @@ public class RepositorioQuestao : RepositorioBaseOrm<Questao>, IRepositorioQuest
     public override Questao? SelecionarPorId(Guid idRegistro)
     {
         return _registros.Include(q => q.Materia)
-            .Include(q => q.Testes).FirstOrDefault(x => x.Id.Equals(idRegistro));
+            .Include(q => q.Testes)
+            .Include(q => q.Alternativas).FirstOrDefault(x => x.Id.Equals(idRegistro));
     }
 
     public override List<Questao> SelecionarTodos()
     {
-        return _registros.Include(q => q.Materia).Include(q => q.Testes).ToList();
+        return _registros.Include(q => q.Materia)
+            .Include(q => q.Testes)
+            .Include(q => q.Alternativas).ToList();
     }
 
     //Para cadastro de testes
