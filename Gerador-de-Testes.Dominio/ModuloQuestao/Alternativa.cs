@@ -4,10 +4,17 @@ public class Alternativa
     public Guid Id { get; set; }
     public string Descricao { get; set; }
     public bool Correta { get; private set; }
+
     public Questao Questao { get; set; }
 
-    public Alternativa() { }
-    public Alternativa(string descricao) : this()
+    public Alternativa(Guid id, string descricao, bool correta)
+    {
+        Id = id;
+        Descricao = descricao;
+        Correta = correta;
+    }
+
+    public Alternativa(string descricao)
     {
         Id = Guid.NewGuid();
         Descricao = descricao;
