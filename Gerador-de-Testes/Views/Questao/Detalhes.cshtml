@@ -1,0 +1,73 @@
+﻿@model DetalhesQuestaoViewModel
+
+<div class="container my-5">
+    <h2 class="text-center mb-4">
+        <i class="bi bi-eye"></i> Detalhes de Quetsão
+    </h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card rounded-2 shadow-sm">
+                <div class="card-body p-md-5">
+                    <h3 class="text-center fw-bold">Formulário de Visualização</h3>
+
+                    <div class="row mt-3 align-items-center">
+                        <label for="Id" class="col-12 col-md-2 col-form-label fs-5 fw-bold">Id:</label>
+                        <div class="col-12 col-md-10">
+                            <input name="Id" class="form-control" value="@Model.Id" readonly disabled />
+                        </div>
+                    </div>
+
+                    <div class="row mt-3 align-items-center">
+                        <label for="Nome" class="col-12 col-md-2 col-form-label fs-5 fw-bold">Enunciado:</label>
+                        <div class="col-12 col-md-10">
+                            <input name="Nome" class="form-control" value="@Model.Enunciado" readonly disabled />
+                        </div>
+                    </div>
+
+                    <div class="row mt-3 align-items-center">
+                        <label for="Nome" class="col-12 col-md-2 col-form-label fs-5 fw-bold">Matéria:</label>
+                        <div class="col-12 col-md-10">
+                            <input name="Serie" class="form-control" value="@Model.Materia" readonly disabled />
+                        </div>
+                    </div>
+
+                    <h4 class="fw-bold mt-4">Alternativas</h4>
+
+                    <table class="table table-striped mt-3">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width: 10%">Opção</th>
+                                <th class="text-center" style=" width: 10%">Correta</th>
+                                <th>Descrição</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Alternativas.Count; i++)
+                            {
+                                var alternativa = Model.Alternativas[i];
+                                var letra = ((char)('A' + i)) + ")";
+
+                                <tr>
+                                    <td class="text-center">@letra</td>
+                                    <td class="text-center">
+                                        @if (alternativa.Correta)
+                                        {
+                                            <span class="badge bg-success">Correta</span>
+                                        }
+                                    </td>
+                                    <td>@alternativa.Descricao</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+
+                    <div class="d-flex justify-content-center gap-3 mt-5">
+                        <a role="button" href="/questoes" class="btn btn-secondary rounded-2 px-5" title="Voltar à página de matérias">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
