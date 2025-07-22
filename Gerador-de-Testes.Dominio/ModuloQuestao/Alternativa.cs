@@ -14,11 +14,11 @@ public class Alternativa
         Correta = correta;
     }
 
-    public Alternativa(string descricao)
+    public Alternativa(string descricao, bool correta)
     {
         Id = Guid.NewGuid();
         Descricao = descricao;
-        Correta = false;
+        Correta = correta;
     }
 
     public void MarcarCorreta() 
