@@ -1,5 +1,6 @@
 using Gerador_de_Testes.Dominio.ModuloDisciplina;
 using Gerador_de_Testes.Dominio.ModuloMateria;
+using Gerador_de_Testes.Dominio.ModuloQuestao;
 using Gerador_de_Testes.Infraestrutura.Orm.Compartilhado;
 using Gerador_de_Testes.WebApp.Extensions;
 using Gerador_de_Testes.WebApp.Models;
@@ -13,12 +14,15 @@ public class MateriaController : Controller
     private readonly GeradorDeTestesDbContext _contexto;
     private readonly IRepositorioMateria _repositorioMateria;
     private readonly IRepositorioDisciplina _repositorioDisciplina;
+    private readonly IRepositorioQuestao _repositorioQuestao;
 
-    public MateriaController(GeradorDeTestesDbContext contexto, IRepositorioMateria repositorioMateria, IRepositorioDisciplina repositorioDisciplina)
+    public MateriaController(GeradorDeTestesDbContext contexto, IRepositorioMateria repositorioMateria, 
+        IRepositorioDisciplina repositorioDisciplina, IRepositorioQuestao repositorioQuestao)
     {
         _contexto = contexto;
         _repositorioMateria = repositorioMateria;
         _repositorioDisciplina = repositorioDisciplina;
+        _repositorioQuestao = repositorioQuestao;
     }
 
     public IActionResult Index()
@@ -145,8 +149,17 @@ public class MateriaController : Controller
 
     [HttpPost("excluir/{id:guid}")]
     [ValidateAntiForgeryToken]
-    public IActionResult ExcluirConfirmado(Guid id)
+    public IActionResult ExcluirConfirmado(Guid id, ExcluirMateriaViewModel excluirVM)
     {
+        var questoes = _repositorioQuestao.SelecionarTodos();
+
+        if (questoes.Any(x => x.Materia.Id.Equals(id)))
+        {
+            ModelState.AddModelError("Exclusao", "Não é possível excluir esta matéria, pois existem questões associadas a ela.");
+            excluirVM.Nome = _repositorioMateria.SelecionarPorId(id)!.Nome;
+            return View(nameof(Excluir), excluirVM);
+        }
+
         var trasacao = _contexto.Database.BeginTransaction();
 
         try
@@ -173,6 +186,7 @@ public class MateriaController : Controller
 
         if (materiaSelecionada is null)
             return RedirectToAction(nameof(Index));
+
 
         var detalhesVM = new DetalhesMateriaViewModel(id, materiaSelecionada.Nome, materiaSelecionada.Serie, materiaSelecionada.Disciplina.Nome);
 
