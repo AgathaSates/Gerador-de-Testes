@@ -1,4 +1,6 @@
 ﻿using Gerador_de_Testes.Dominio.ModuloDisciplina;
+using Gerador_de_Testes.Dominio.ModuloMateria;
+using Gerador_de_Testes.Dominio.ModuloTeste;
 using Gerador_de_Testes.Infraestrutura.Orm.Compartilhado;
 using Gerador_de_Testes.WebApp.Extensions;
 using Gerador_de_Testes.WebApp.Models;
@@ -11,11 +13,16 @@ public class DisciplinaController : Controller
 {
     private readonly GeradorDeTestesDbContext _contexto;
     private readonly IRepositorioDisciplina _repositorioDisciplina;
+    private readonly IRepositorioMateria _repositorioMateria;
+    private readonly IRepositorioTeste _repositorioTeste;
 
-    public DisciplinaController(GeradorDeTestesDbContext contexto, IRepositorioDisciplina repositorioDisciplina)
+    public DisciplinaController(GeradorDeTestesDbContext contexto, IRepositorioDisciplina repositorioDisciplina,
+        IRepositorioMateria repositorioMateria, IRepositorioTeste repositorioTeste)
     {
         _contexto = contexto;
         _repositorioDisciplina = repositorioDisciplina;
+        _repositorioMateria = repositorioMateria;
+        _repositorioTeste = repositorioTeste;
     }
 
     public IActionResult Index()
@@ -139,11 +146,19 @@ public class DisciplinaController : Controller
 
     [HttpPost("excluir/{id:guid}")]
     [ValidateAntiForgeryToken]
-    public IActionResult ExcluirConfirmado(Guid id)
+    public IActionResult ExcluirConfirmado(Guid id, ExcluirDisciplinaViewModel excluirVM)
     {
         ViewBag.Title = "Disciplinas | Excluir";
 
-        //validação de exclusão depois de criar as outras entidades
+        var materias = _repositorioMateria.SelecionarTodos();
+        var testes = _repositorioTeste.SelecionarTodos();
+
+        if (materias.Any(x => x.Disciplina.Id.Equals(id)) || testes.Any(x => x.Disciplina.Id.Equals(id)))
+        {
+            ModelState.AddModelError("Exclusao", "Não é possível excluir esta disciplina, pois existem matérias ou testes associados a ela.");
+            excluirVM.Nome = _repositorioDisciplina.SelecionarPorId(id)!.Nome;
+            return View(nameof(Excluir), excluirVM);
+        }
 
         var trasacao = _contexto.Database.BeginTransaction();
 
