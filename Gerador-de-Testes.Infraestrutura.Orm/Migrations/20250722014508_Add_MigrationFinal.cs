@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Gerador_de_Testes.Infraestrutura.Orm.Migrations
 {
     /// <inheritdoc />
-    public partial class Add_FinalMigration : Migration
+    public partial class Add_MigrationFinal : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -125,7 +125,7 @@ namespace Gerador_de_Testes.Infraestrutura.Orm.Migrations
                         column: x => x.QuestaoId,
                         principalTable: "Questoes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gerador_de_Testes.Infraestrutura.Orm.Migrations
 {
     [DbContext(typeof(GeradorDeTestesDbContext))]
-    [Migration("20250720080026_Add_FinalMigration")]
-    partial class Add_FinalMigration
+    [Migration("20250722014508_Add_MigrationFinal")]
+    partial class Add_MigrationFinal
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -180,7 +180,7 @@ namespace Gerador_de_Testes.Infraestrutura.Orm.Migrations
                     b.HasOne("Gerador_de_Testes.Dominio.ModuloQuestao.Questao", "Questao")
                         .WithMany("Alternativas")
                         .HasForeignKey("QuestaoId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Questao");

@@ -177,7 +177,7 @@ namespace Gerador_de_Testes.Infraestrutura.Orm.Migrations
                     b.HasOne("Gerador_de_Testes.Dominio.ModuloQuestao.Questao", "Questao")
                         .WithMany("Alternativas")
                         .HasForeignKey("QuestaoId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Questao");
