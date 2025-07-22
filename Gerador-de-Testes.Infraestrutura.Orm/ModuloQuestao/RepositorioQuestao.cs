@@ -12,7 +12,9 @@ public class RepositorioQuestao : RepositorioBaseOrm<Questao>, IRepositorioQuest
     {
         return _registros.Include(q => q.Materia)
             .Include(q => q.Testes)
-            .Include(q => q.Alternativas).FirstOrDefault(x => x.Id.Equals(idRegistro));
+            .Include(q => q.Alternativas)
+            .FirstOrDefault(x => x.Id.Equals(idRegistro));
+       
     }
 
     public override List<Questao> SelecionarTodos()
