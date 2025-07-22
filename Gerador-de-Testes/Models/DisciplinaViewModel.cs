@@ -36,7 +36,9 @@ public class ExcluirDisciplinaViewModel
 {
     public Guid Id { get; set; }
     public string Nome { get; set; }
-    public ExcluirDisciplinaViewModel(Guid id, string nome)
+
+    public ExcluirDisciplinaViewModel() { }
+    public ExcluirDisciplinaViewModel(Guid id, string nome) : this()
     {
         Id = id;
         Nome = nome;

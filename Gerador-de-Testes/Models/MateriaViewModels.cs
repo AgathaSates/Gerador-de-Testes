@@ -78,7 +78,8 @@ public class ExcluirMateriaViewModel
     public Guid Id { get; set; }
     public string Nome { get; set; }
 
-    public ExcluirMateriaViewModel(Guid id, string nome)
+    public ExcluirMateriaViewModel() { }
+    public ExcluirMateriaViewModel(Guid id, string nome) : this()
     {
         Id = id;
         Nome = nome;
