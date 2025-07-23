@@ -1,0 +1,91 @@
+﻿@model DetalhesTesteViewModel
+
+<div class="container my-5">
+	<h2 class="text-center mb-4">
+		<i class="bi bi-eye"></i> Detalhes de Teste
+	</h2>
+
+	<div class="row justify-content-center">
+		<div class="col-md-8">
+			<div class="card rounded-2 shadow-sm">
+				<div class="card-body p-md-5">
+					<h3 class="text-center fw-bold">Formulário de Visualização</h3>
+
+					<div class="mb-3">
+						<label class="form-label fs-5 fw-bold">Id:</label>
+						<input class="form-control" value="@Model.Id" readonly disabled />
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label fs-5 fw-bold">Título:</label>
+						<input class="form-control" value="@Model.Titulo" readonly disabled />
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label fs-5 fw-bold">Série:</label>
+						<input class="form-control" value="@Model.Serie" readonly disabled />
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label fs-5 fw-bold">Disciplina:</label>
+						<input class="form-control" value="@Model.Disciplina" readonly disabled />
+					</div>
+
+					<div class="row mb-3">
+						<div class="col-12 col-md-6 mb-3 mb-md-0">
+							<label class="form-label fs-5 fw-bold">Perguntas:</label>
+							<input class="form-control" value="@Model.QuantidadeQuestoes" readonly disabled />
+						</div>
+						<div class="col-12 col-md-6">
+							<label class="form-label fs-5 fw-bold">Recuperação:</label>
+							<input class="form-control" value="@(Model.ProvaRecuperacao ? "Sim" : "Não")" readonly disabled />
+						</div>
+					</div>
+
+					@if (!Model.ProvaRecuperacao)
+					{
+						<div class="mb-3">
+							<label class="form-label fs-5 fw-bold">Matéria:</label>
+							<input class="form-control" value="@Model.Materia" readonly disabled />
+						</div>
+					}
+
+					<hr />
+
+					<h4 class="fw-bold mt-2 mb-3">Lista de Questões</h4>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th style="width: 10%" class="text-center">Letra</th>
+								<th>Enunciado</th>
+							</tr>
+						</thead>
+						<tbody>
+							@for (int i = 0; i < Model.Questoes.Count; i++)
+							{
+								var letra = ((char)('A' + i)) + ")";
+								<tr>
+									<td class="text-center fw-bold">@letra</td>
+									<td>@Model.Questoes[i]</td>
+								</tr>
+							}
+						</tbody>
+					</table>
+
+					<div class="d-flex justify-content-center gap-3 mt-5 flex-wrap">
+						<a href="/testes" class="btn btn-secondary px-5">Voltar</a>
+				
+						<a asp-action="GerarPdf" asp-route-id="@Model.Id" class="btn btn-primary" target="_blank">
+							<i class="bi bi-file-earmark-pdf"></i> Baixar Teste (PDF)
+						</a>
+
+						<a asp-action="GerarGabaritoPdf" asp-route-id="@Model.Id" class="btn btn-success" target="_blank">
+							<i class="bi bi-file-check"></i> Baixar Gabarito (PDF)
+						</a>
+					</	>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

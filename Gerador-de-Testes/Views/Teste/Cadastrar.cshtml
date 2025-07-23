@@ -1,0 +1,86 @@
+﻿@using Gerador_de_Testes.Dominio.ModuloMateria
+@model CadastrarTesteViewModel
+
+<div class="container my-5">
+    <h2 class="text-center mb-4">
+        <i class="bi bi-clipboard-check-fill"></i> Cadastro de Teste
+    </h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card rounded-2 shadow-sm">
+                <div class="card-body p-md-5">
+                    <form asp-action="cadastrar" method="post">
+
+                        <h3 class="text-center fw-bold">Formulário de Cadastro</h3>
+
+                        @if (ViewData.ModelState["CadastroUnico"]?.Errors.Count > 0)
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
+                                @ViewData.ModelState["CadastroUnico"]!.Errors.First().ErrorMessage
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+
+                        <div class="form-group mt-3">
+                            <label asp-for="Titulo" class="control-label fw-bold">Título*</label>
+                            <input asp-for="Titulo" class="form-control" placeholder="Digite um título para o teste..." />
+                            <span asp-validation-for="Titulo" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label asp-for="DisciplinaId" class="control-label fw-bold">Disciplina*</label>
+                            <select asp-for="DisciplinaId" class="form-select">
+                                @foreach (var item in Model.Disciplinas)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                            <span asp-validation-for="DisciplinaId" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label asp-for="Serie" class="control-label fw-bold">Série*</label>
+                            <select asp-for="Serie" class="form-select">
+S                                @foreach (var item in Enum.GetValues(typeof(Serie)))
+                                {
+                                    <option value="@item">@item</option>
+                                }
+                            </select>
+                            <span asp-validation-for="Serie" class="text-danger"></span>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label asp-for="QuantidadeQuestoes" class="control-label fw-bold">Quantidade de Questões*</label>
+                                    <input asp-for="QuantidadeQuestoes" class="form-control" type="number"  max="20" step="1" />
+                                    <span asp-validation-for="QuantidadeQuestoes" class="text-danger"></span>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-4 d-flex justify-content-md-start justify-content-center mt-3 fw-semibold">
+                                <div class="form-check d-flex align-items-center">
+                                    <input asp-for="ProvaRecuperacao" class="form-check-input me-2" type="checkbox" />
+                                    <label asp-for="ProvaRecuperacao" class="form-check-label">
+                                        Prova de Recuperação
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-center gap-3 mt-5">
+                            <a role="button" href="/testes" class="btn btn-secondary rounded-2 px-5">Cancelar</a>
+                            <button type="submit" class="btn btn-primary rounded-2 px-5">Avançar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

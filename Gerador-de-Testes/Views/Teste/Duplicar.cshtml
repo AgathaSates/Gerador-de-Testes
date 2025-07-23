@@ -1,0 +1,135 @@
+﻿@model DuplicarTesteViewModel
+
+<div class="container my-5">
+    <h2 class="text-center mb-4">
+        <i class="bi bi-files"></i> Duplicar Teste
+    </h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card rounded-2 shadow-sm">
+                <div class="card-body p-md-5">
+
+                    <h3 class="text-center fw-bold mb-4">Nova Cópia de Teste</h3>
+
+                    <form asp-action="Duplicar" method="post">
+                        @if (ViewData.ModelState["CadastroUnico"]?.Errors.Count > 0)
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
+                                @ViewData.ModelState["CadastroUnico"]!.Errors.First().ErrorMessage
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+
+                        <div class="mb-3">
+                            <label asp-for="Titulo" class="form-label fw-bold">Título*</label>
+                            <input asp-for="Titulo" class="form-control" placeholder="Digite o título do novo teste" />
+                            <span asp-validation-for="Titulo" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Disciplina</label>
+                            <input class="form-control" value="@Model.DisciplinaNome" readonly disabled />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Série Escolar</label>
+                            <input class="form-control" value="@Model.Serie" readonly disabled />
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Quantidade de Questões</label>
+                                <input class="form-control" value="@Model.QuantidadeQuestoes" readonly disabled />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Prova de Recuperação</label>
+                                <input class="form-control" value="@(Model.ProvaRecuperacao ? "Sim" : "Não")" readonly disabled />
+                            </div>
+                        </div>
+
+                        <div class="row align-items-end mb-3">
+                            <div class="col">
+                                
+                                @if (!Model.ProvaRecuperacao)
+                                {
+                                    <label class="form-label fw-bold">Matéria</label>
+                                    <input class="form-control" value="@Model.MateriaNome" readonly disabled />
+                                }
+                                else
+                                {
+                                    <input type="text" class="form-control" value="Prova de Recuperação" disabled />
+                                }
+                            </div>
+
+                            <div class="col-auto">
+                                <button type="submit" formaction="/testes/duplicar/sortear" class="btn btn-primary w-100">
+                                    <i class="bi bi-shuffle"></i> Sortear Questões
+                                </button>
+                            </div>
+                        </div>
+
+                        <hr/>
+
+                        <div class="form-group mb-4">
+                            <h5 class="fw-bold">Questões Geradas:</h5>
+                            <div class="form-control p-0" style="height: 200px; overflow-y: auto;">
+                                @if (Model.Questoes != null && Model.Questoes.Any())
+                                {
+                                    <table class="table table-sm mb-0">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th style="width: 80px;">Questão</th>
+                                                <th>Enunciado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for (int i = 0; i < Model.Questoes.Count; i++)
+                                            {
+                                                <tr>
+                                                    <td class="text-center">Nº @(@i + 1)</td>
+                                                    <td>@Model.Questoes[i].Text</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <div class="p-3 text-muted text-center">
+                                        Nenhuma questão sorteada ainda.
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <input type="hidden" asp-for="DisciplinaId" />
+                        <input type="hidden" asp-for="DisciplinaNome" />
+                        <input type="hidden" asp-for="Serie" />
+                        <input type="hidden" asp-for="QuantidadeQuestoes" />
+                        <input type="hidden" asp-for="ProvaRecuperacao" />
+                        <input type="hidden" asp-for="MateriaId" />
+                        <input type="hidden" asp-for="MateriaNome" />
+
+                        @for (int i = 0; i < Model.Questoes.Count; i++)
+                        {
+                            <input type="hidden" asp-for="Questoes[i].Text" />
+                            <input type="hidden" asp-for="Questoes[i].Value" />
+                        }
+
+                        <div class="d-flex justify-content-center gap-3 mt-4">
+                            <a role="button" href="/testes" class="btn btn-secondary px-5">Voltar</a>
+                            <button type="submit" class="btn btn-success px-5">Gerar</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
