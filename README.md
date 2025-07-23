@@ -5,7 +5,7 @@
 # 📌 Demonstração
 
 ## 🖥️ Tela Inicial  
-![Demonstração do Projeto](https://i.imgur.com/Ibh2qy8.mp4)
+![Demonstração do Projeto](https://i.imgur.com/If8jHTT.gif)
 
 ## 🔍 Navegações  
 ![Demonstração do Projeto](https://i.imgur.com/iHnfmdW.gif)
