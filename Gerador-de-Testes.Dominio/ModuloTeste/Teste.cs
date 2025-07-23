@@ -20,7 +20,7 @@ public class Teste : EntidadeBase<Teste>
         Questoes = new List<Questao>();
     }
 
-    public Teste(string titulo, Disciplina disciplina, List<Materia> materias, int quantidadeQuestoes, Serie serie, bool provaRecuperacao) : this()
+    public Teste(string titulo, Disciplina disciplina, List<Materia> materias, int quantidadeQuestoes, Serie serie, bool provaRecuperacao, List<Questao> questoes) : this()
     {
         Id = Guid.NewGuid();
         Titulo = titulo;
@@ -29,11 +29,7 @@ public class Teste : EntidadeBase<Teste>
         QuantidadeQuestoes = quantidadeQuestoes;
         Serie = serie;
         ProvaRecuperacao = provaRecuperacao;
-    }
-
-    public void AdicionarQuestoes(List<Questao> questao)
-    {
-        Questoes = questao;
+        Questoes = questoes;
     }
 
     public override void Atualizar(Teste registroEditado)
