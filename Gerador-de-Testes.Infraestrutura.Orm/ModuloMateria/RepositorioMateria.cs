@@ -22,4 +22,14 @@ public class RepositorioMateria : RepositorioBaseOrm<Materia>, IRepositorioMater
             .Include(m => m.Testes)
             .FirstOrDefault(x => x.Id.Equals(idRegistro));
     }
+
+    public List<Materia> SelecionarMateriasPorDisciplina(Guid disciplinaId)
+    {
+        return _registros
+            .Include(m => m.Disciplina)
+            .Include(m => m.Questoes)
+            .Include(m => m.Testes)
+            .Where(m => m.Disciplina.Id.Equals(disciplinaId))
+            .ToList();
+    }
 }
