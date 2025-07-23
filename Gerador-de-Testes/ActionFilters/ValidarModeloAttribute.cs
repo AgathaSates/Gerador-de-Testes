@@ -1,23 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Gerador_de_Testes.WebApp.ActionFilters;
 
 public class ValidarModeloAttribute : ActionFilterAttribute
-{   // Lógica ANTES da execução de cada método Action
+{
     public override void OnActionExecuting(ActionExecutingContext context)
     {
-        var modelState = context.ModelState;
+        if (context.Controller is not Controller controller)
+            return;
 
-        if (!modelState.IsValid)
-        {
-            var controller = (Controller)context.Controller;
+        ModelStateDictionary modelState = context.ModelState;
 
-            var viewModel = context.ActionArguments
-                .Values
-                .FirstOrDefault(x => x.GetType().Name.EndsWith("ViewModel"));
+        object? viewModel = context.ActionArguments.Values
+            .FirstOrDefault(
+            x => x?.GetType().Name.EndsWith("ViewModel") == true);
 
-            context.Result = controller.View(viewModel);
-        }
+        if (!modelState.IsValid && viewModel != null)
+            context.HttpContext.Items["ModelStateInvalid"] = true;
     }
 }
