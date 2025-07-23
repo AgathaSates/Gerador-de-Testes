@@ -9,6 +9,7 @@ using Gerador_de_Testes.Infraestrutura.Orm.ModuloTeste;
 using Gerador_de_Testes.WebApp.ActionFilters;
 using Gerador_de_Testes.WebApp.DependencyInjection;
 using Gerador_de_Testes.WebApp.Orm;
+using QuestPDF.Infrastructure;
 
 namespace Gerador_de_Testes.WebApp
 {
@@ -16,13 +17,15 @@ namespace Gerador_de_Testes.WebApp
     {
         public static void Main(string[] args)
         {
+            QuestPDF.Settings.License = LicenseType.Community;
+
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllersWithViews(options =>
             {
                 options.Filters.Add<ValidarModeloAttribute>();
                 options.Filters.Add<LogarAcaoAttribute>();
-            });
+            }).AddNewtonsoftJson();
 
             builder.Services.AddScoped<IRepositorioDisciplina, RepositorioDisciplina>();
             builder.Services.AddScoped<IRepositorioMateria, RepositorioMateria>();
