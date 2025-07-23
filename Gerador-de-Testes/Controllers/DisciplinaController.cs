@@ -187,8 +187,6 @@ public class DisciplinaController : Controller
         if (disciplinaSelecionada is null)
             return RedirectToAction(nameof(Index));
 
-        //adicionar mais detalhes de materias e testes relacionados
-
         var detalhesVM = new DetalhesDisciplinaViewModel(id, disciplinaSelecionada.Nome);
 
         return View(detalhesVM);
