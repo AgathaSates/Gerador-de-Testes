@@ -8,22 +8,14 @@ public static class QuestaoExtensions
 {
     public static Questao ParaEntidade(this FormularioQuestaoViewModel formVM, List<Materia> materias)
     {
-        Materia? materiaSelecionada = null;
+        var materiaSelecionada = 
+            materias.FirstOrDefault(m => m.Id == formVM.MateriaId);
 
-        foreach (var m in materias)
-        {
-            if (m.Id == formVM.MateriaId)
-                materiaSelecionada = m;
-        }
+        var alternativas = formVM.Alternativas
+         .Select(a => new Alternativa(a.AlternativaId, a.Descricao, a.Correta))
+         .ToList();
 
-        List<Alternativa> alternativas = new List<Alternativa>();
-
-        foreach (var a in formVM.Alternativas)
-        {
-            alternativas.Add(new Alternativa(a.AlternativaId, a.Descricao, a.Correta));
-        }
-
-        return new Questao(formVM.Enunciado, materiaSelecionada!, alternativas);
+        return new (formVM.Enunciado, materiaSelecionada!, alternativas);
     }
 
     public static DetalhesQuestaoViewModel DetalhesVM(this Questao questao)
