@@ -13,8 +13,7 @@ public class RepositorioQuestao : RepositorioBaseOrm<Questao>, IRepositorioQuest
         return _registros.Include(q => q.Materia)
             .Include(q => q.Testes)
             .Include(q => q.Alternativas)
-            .FirstOrDefault(x => x.Id.Equals(idRegistro));
-       
+            .FirstOrDefault(x => x.Id.Equals(idRegistro));   
     }
 
     public override List<Questao> SelecionarTodos()
@@ -24,26 +23,17 @@ public class RepositorioQuestao : RepositorioBaseOrm<Questao>, IRepositorioQuest
             .Include(q => q.Alternativas).ToList();
     }
 
-    //Para cadastro de testes
-    public List<Questao> SelecionarQuestoesPorDisciplina(Guid disciplinaId, Serie serieEscolar)
+    public List<Questao> SelecionarQuestoesPorDisciplina(Guid disciplinaId)
     {
         return _registros
-            .Where(q => q.Materia.Disciplina.Id.Equals(disciplinaId) && q.Materia.Serie == serieEscolar)
+            .Where(q => q.Materia.Disciplina.Id.Equals(disciplinaId))
             .ToList();
     }
 
-    public List<Questao> SelecionarQuestoesPorMateria(Guid materiaId, Serie serieEscolar)
+    public List<Questao> SelecionarQuestoesPorMateria(Guid materiaId)
     {
         return _registros
-            .Where(q => q.Materia.Id.Equals(materiaId) && q.Materia.Serie == serieEscolar)
+            .Where(q => q.Materia.Id.Equals(materiaId))
             .ToList();
-    }
-
-    public List<Questao> SortearQuestoes(Guid disciplinaId, Guid? materiaId,
-        Serie serie, int quantidade, bool provaRecuperacao)
-    {
-        return _registros.Where(q => q.Materia.Disciplina.Id == disciplinaId &&
-                q.Materia.Serie == serie && (provaRecuperacao || q.Materia.Id == materiaId))
-     .OrderBy(q => Guid.NewGuid()).Take(quantidade) .ToList();
     }
 }
