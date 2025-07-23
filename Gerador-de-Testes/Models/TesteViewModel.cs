@@ -36,9 +36,8 @@ public class FormularioTesteViewModel
         Disciplinas = new List<SelectListItem>();
     }
 
-    public FormularioTesteViewModel(List<SelectListItem> materias, List<SelectListItem> disciplinas) : this()
+    public FormularioTesteViewModel(List<SelectListItem> disciplinas) : this()
     {
-        Materias.AddRange(materias);
         Disciplinas.AddRange(disciplinas);
     }
 }
@@ -47,7 +46,7 @@ public class CadastrarTesteViewModel : FormularioTesteViewModel
 {
     public CadastrarTesteViewModel() { }
 
-    public CadastrarTesteViewModel(List<SelectListItem> materias, List<SelectListItem> disciplinas) : base(materias, disciplinas) { }
+    public CadastrarTesteViewModel(List<SelectListItem> disciplinas) : base(disciplinas) { }
 }
 
 public class DuplicarTesteViewModel : FormularioTesteViewModel

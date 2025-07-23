@@ -23,17 +23,17 @@ public class RepositorioQuestao : RepositorioBaseOrm<Questao>, IRepositorioQuest
             .Include(q => q.Alternativas).ToList();
     }
 
-    public List<Questao> SelecionarQuestoesPorDisciplina(Guid disciplinaId)
+    public List<Questao> SelecionarQuestoesPorMateria(Guid materiaId, Serie serie)
     {
         return _registros
-            .Where(q => q.Materia.Disciplina.Id.Equals(disciplinaId))
+            .Where(q => q.Materia.Id.Equals(materiaId) && q.Materia.Serie == serie)
             .ToList();
     }
 
-    public List<Questao> SelecionarQuestoesPorMateria(Guid materiaId)
+    public List<Questao> SelecionarQuestoesPorDisciplina(Guid disciplinaId, Serie serie)
     {
         return _registros
-            .Where(q => q.Materia.Id.Equals(materiaId))
+            .Where(q => q.Materia.Disciplina.Id.Equals(disciplinaId) && q.Materia.Serie == serie)
             .ToList();
     }
 }

@@ -23,13 +23,12 @@ public class RepositorioMateria : RepositorioBaseOrm<Materia>, IRepositorioMater
             .FirstOrDefault(x => x.Id.Equals(idRegistro));
     }
 
-    public List<Materia> SelecionarMateriasPorDisciplina(Guid disciplinaId)
+    public List<Materia> SelecionarMateriasPorDisciplina(Guid disciplinaId, Serie serie)
     {
-        return _registros
-            .Include(m => m.Disciplina)
+        return _registros.Include(m => m.Disciplina)
             .Include(m => m.Questoes)
             .Include(m => m.Testes)
-            .Where(m => m.Disciplina.Id.Equals(disciplinaId))
+            .Where(m => m.Disciplina.Id.Equals(disciplinaId) && m.Serie == serie)
             .ToList();
     }
 }

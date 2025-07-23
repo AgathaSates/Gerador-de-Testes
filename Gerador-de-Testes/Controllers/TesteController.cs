@@ -42,12 +42,10 @@ public class TesteController : Controller
             .ToList();
     }
 
-    private List<SelectListItem> ObterSelectListDeMaterias(bool isRecuperacao, Guid disciplinaId = default)
+    private List<SelectListItem> ObterSelectListDeMaterias(Serie serie, Guid disciplinaId = default)
     {
-        var materias = isRecuperacao
-            ? _repositorioMateria.SelecionarMateriasPorDisciplina(disciplinaId)
-            : _repositorioMateria.SelecionarTodos();
-
+        var materias = _repositorioMateria.SelecionarMateriasPorDisciplina(disciplinaId, serie);
+ 
         return materias
             .Select(m => new SelectListItem { Text = m.Nome, Value = m.Id.ToString() })
             .ToList();
@@ -70,8 +68,7 @@ public class TesteController : Controller
     {
         ViewBag.Title = "Testes | Cadastrar";
 
-        var cadastrarVM = new CadastrarTesteViewModel(
-            ObterSelectListDeMaterias(false), ObterSelectListDeDisciplinas());
+        var cadastrarVM = new CadastrarTesteViewModel(ObterSelectListDeDisciplinas());
 
         return View(cadastrarVM);
     }
@@ -82,7 +79,7 @@ public class TesteController : Controller
     {
         ViewBag.Title = "Testes | Cadastrar";
 
-        var questões = _repositorioQuestao.SelecionarQuestoesPorDisciplina(cadastrarVM.DisciplinaId);
+        var questões = _repositorioQuestao.SelecionarQuestoesPorDisciplina(cadastrarVM.DisciplinaId, cadastrarVM.Serie);
         var testes = _repositorioTeste.SelecionarTodos();
 
         if (cadastrarVM.QuantidadeQuestoes > questões.Count)
@@ -119,9 +116,7 @@ public class TesteController : Controller
 
         vmParcial!.DisciplinaNome = _repositorioDisciplina.SelecionarPorId(vmParcial.DisciplinaId)!.Nome;
 
-        vmParcial.Materias = vmParcial.ProvaRecuperacao
-            ? ObterSelectListDeMaterias(true, vmParcial.DisciplinaId)
-            : ObterSelectListDeMaterias(false);
+        vmParcial.Materias = ObterSelectListDeMaterias(vmParcial.Serie, vmParcial.DisciplinaId);
 
         TempData.Keep("CadastroParcial");
 
@@ -173,9 +168,7 @@ public class TesteController : Controller
 
         var materia = _repositorioMateria.SelecionarPorId(vmParcial.MateriaId);
 
-        vmParcial.Materias = vmParcial.ProvaRecuperacao
-            ? ObterSelectListDeMaterias(true, vmParcial.DisciplinaId)
-            : ObterSelectListDeMaterias(false);
+        vmParcial.Materias = ObterSelectListDeMaterias(vmParcial.Serie, vmParcial.DisciplinaId);
 
         if (!vmParcial.ProvaRecuperacao && vmParcial.QuantidadeQuestoes > materia.Questoes.Count)
         {
@@ -188,8 +181,8 @@ public class TesteController : Controller
         }
 
         var questoes = vmParcial.ProvaRecuperacao
-              ? _repositorioQuestao.SelecionarQuestoesPorDisciplina(vmParcial.DisciplinaId)
-              : _repositorioQuestao.SelecionarQuestoesPorMateria(vmParcial.MateriaId);
+              ? _repositorioQuestao.SelecionarQuestoesPorDisciplina(vmParcial.DisciplinaId, vmParcial.Serie)
+              : _repositorioQuestao.SelecionarQuestoesPorMateria(vmParcial.MateriaId, vmParcial.Serie);
 
         var questoesList = questoes.Select(q => new SelectListItem
         {
@@ -346,8 +339,8 @@ public class TesteController : Controller
 
 
         var questoes = vmParcial.ProvaRecuperacao
-              ? _repositorioQuestao.SelecionarQuestoesPorDisciplina(vmParcial.DisciplinaId)
-              : _repositorioQuestao.SelecionarQuestoesPorMateria(vmParcial.MateriaId);
+              ? _repositorioQuestao.SelecionarQuestoesPorDisciplina(vmParcial.DisciplinaId, vmParcial.Serie)
+              : _repositorioQuestao.SelecionarQuestoesPorMateria(vmParcial.MateriaId, vmParcial.Serie);
 
 
         if (!vmParcial.ProvaRecuperacao && vmParcial.QuantidadeQuestoes > materia.Questoes.Count)
