@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[Disciplinas] (
+    [Id]   UNIQUEIDENTIFIER NOT NULL,
+    [Nome] NVARCHAR (100)   NOT NULL,
+    CONSTRAINT [PK_Disciplinas] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
