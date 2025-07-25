@@ -1,5 +1,7 @@
 ﻿# Gerador-de-Testes
 
+➡️ 🌐 Link do site online na azure: https://gerador-de-testes-oblivion-g2fjbcbedehseegc.brazilsouth-01.azurewebsites.net
+
 ![banner](Gerador-de-Testes/wwwroot/imagens/banner.png)
 
 # 📌 Demonstração
