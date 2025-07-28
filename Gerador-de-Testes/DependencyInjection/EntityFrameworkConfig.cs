@@ -11,6 +11,6 @@ public static class EntityFrameworkConfig
         var connectionString = configuration["SQL_CONNECTION_STRING"];
 
         services.AddDbContext<GeradorDeTestesDbContext>(options =>
-            options.UseSqlServer(connectionString, opt => opt.EnableRetryOnFailure()));
+            options.UseSqlServer(connectionString));
     }
 }
