@@ -1,3 +1,4 @@
+using Gerador_de_Testes.Dominio.Compartilhado;
 using Gerador_de_Testes.Dominio.ModuloDisciplina;
 using Gerador_de_Testes.Dominio.ModuloMateria;
 using Gerador_de_Testes.Dominio.ModuloQuestao;
@@ -5,7 +6,7 @@ using Gerador_de_Testes.Dominio.ModuloTeste;
 using Microsoft.EntityFrameworkCore;
 
 namespace Gerador_de_Testes.Infraestrutura.Orm.Compartilhado;
-public class GeradorDeTestesDbContext : DbContext
+public class GeradorDeTestesDbContext : DbContext, IUnitOfWork
 {
     public DbSet<Disciplina> Disciplinas { get; set; }
     public DbSet<Materia> Materias { get; set; }
@@ -22,5 +23,31 @@ public class GeradorDeTestesDbContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(assembly);
 
         base.OnModelCreating(modelBuilder);
+    }
+
+    public void Commit()
+    {
+        SaveChanges();
+    }
+
+    public void Rollback()
+    {
+        foreach (var entry in ChangeTracker.Entries())
+        {
+            switch (entry.State)
+            {
+                case EntityState.Added:
+                    entry.State = EntityState.Unchanged;
+                    break;
+
+                case EntityState.Modified:
+                    entry.State = EntityState.Unchanged;
+                    break;
+
+                case EntityState.Deleted:
+                    entry.State = EntityState.Unchanged;
+                    break;
+            }
+        }
     }
 }

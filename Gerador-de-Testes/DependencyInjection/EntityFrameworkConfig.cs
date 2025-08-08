@@ -1,4 +1,5 @@
-﻿using Gerador_de_Testes.Infraestrutura.Orm.Compartilhado;
+﻿using Gerador_de_Testes.Dominio.Compartilhado;
+using Gerador_de_Testes.Infraestrutura.Orm.Compartilhado;
 using Microsoft.EntityFrameworkCore;
 
 namespace Gerador_de_Testes.WebApp.DependencyInjection;
@@ -10,7 +11,7 @@ public static class EntityFrameworkConfig
     {
         var connectionString = configuration["SQL_CONNECTION_STRING"];
 
-        services.AddDbContext<GeradorDeTestesDbContext>(options =>
+        services.AddDbContext<IUnitOfWork, GeradorDeTestesDbContext>(options =>
             options.UseSqlServer(connectionString));
     }
 }
