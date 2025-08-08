@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Gerador_de_Testes.Aplicacao</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentResults" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Gerador-de-Testes.Dominio\Gerador-de-Testes.Dominio.csproj" />
+    <ProjectReference Include="..\Gerador-de-Testes.Infraestrutura.Orm\Gerador-de-Testes.Infraestrutura.Orm.csproj" />
+  </ItemGroup>
+
+</Project>

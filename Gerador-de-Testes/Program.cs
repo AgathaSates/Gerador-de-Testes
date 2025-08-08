@@ -1,3 +1,4 @@
+using Gerador_de_Testes.Aplicacao.ModuloDisciplina;
 using Gerador_de_Testes.Dominio.ModuloDisciplina;
 using Gerador_de_Testes.Dominio.ModuloMateria;
 using Gerador_de_Testes.Dominio.ModuloQuestao;
@@ -27,6 +28,7 @@ namespace Gerador_de_Testes.WebApp
                 options.Filters.Add<LogarAcaoAttribute>();
             }).AddNewtonsoftJson();
 
+            builder.Services.AddScoped<DisciplinaService>();
             builder.Services.AddScoped<IRepositorioDisciplina, RepositorioDisciplina>();
             builder.Services.AddScoped<IRepositorioMateria, RepositorioMateria>();
             builder.Services.AddScoped<IRepositorioQuestao, RepositorioQuestao>();

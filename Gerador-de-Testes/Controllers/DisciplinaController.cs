@@ -1,4 +1,5 @@
-﻿using Gerador_de_Testes.Dominio.ModuloDisciplina;
+﻿using Gerador_de_Testes.Aplicacao.ModuloDisciplina;
+using Gerador_de_Testes.Dominio.ModuloDisciplina;
 using Gerador_de_Testes.Dominio.ModuloMateria;
 using Gerador_de_Testes.Dominio.ModuloTeste;
 using Gerador_de_Testes.Infraestrutura.Orm.Compartilhado;
@@ -11,14 +12,20 @@ namespace Gerador_de_Testes.WebApp.Controllers;
 [Route("disciplinas")]
 public class DisciplinaController : Controller
 {
+    private readonly DisciplinaService disciplinaService;
     private readonly GeradorDeTestesDbContext _contexto;
     private readonly IRepositorioDisciplina _repositorioDisciplina;
     private readonly IRepositorioMateria _repositorioMateria;
     private readonly IRepositorioTeste _repositorioTeste;
 
-    public DisciplinaController(GeradorDeTestesDbContext contexto, IRepositorioDisciplina repositorioDisciplina,
-        IRepositorioMateria repositorioMateria, IRepositorioTeste repositorioTeste)
+    public DisciplinaController(
+        DisciplinaService disciplinaService,
+        GeradorDeTestesDbContext contexto, 
+        IRepositorioDisciplina repositorioDisciplina,
+        IRepositorioMateria repositorioMateria, 
+        IRepositorioTeste repositorioTeste)
     {
+        this.disciplinaService = disciplinaService;
         _contexto = contexto;
         _repositorioDisciplina = repositorioDisciplina;
         _repositorioMateria = repositorioMateria;
@@ -51,32 +58,9 @@ public class DisciplinaController : Controller
     {
         ViewBag.Title = "Disciplinas | Cadastrar";
 
-        var disciplinas = _repositorioDisciplina.SelecionarTodos();
+        var entidade = cadastrarVm.ParaEntidade();
 
-        foreach (var item in disciplinas)
-        {
-            if (item.Nome.Equals(cadastrarVm.Nome))
-            {
-                ModelState.AddModelError("CadastroUnico", "Já existe uma disciplina registrada com este nome.");
-                return View(cadastrarVm);
-            }
-        }
-
-        var novaDisciplina = cadastrarVm.ParaEntidade();
-
-        var transacao = _contexto.Database.BeginTransaction();
-
-        try 
-        {
-            _repositorioDisciplina.Cadastrar(novaDisciplina);
-            _contexto.SaveChanges();
-            transacao.Commit();
-        }
-        catch (Exception)
-        {
-            transacao.Rollback();
-            throw;
-        }
+        var resultado = disciplinaService.Cadastrar(entidade);
 
         return RedirectToAction(nameof(Index));
     }
