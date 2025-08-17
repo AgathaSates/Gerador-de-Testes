@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gerador-de-Testes.Dominio",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gerador-de-Testes.Infraestrutura.Orm", "Gerador-de-Testes.Infraestrutura.Orm\Gerador-de-Testes.Infraestrutura.Orm.csproj", "{1CC00177-92ED-4832-87BC-BC01B5D29216}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.Testes", "4.Testes", "{85CA81E9-CA73-4D52-84CE-09EDA4B392F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
